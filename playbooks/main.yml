@@ -1,0 +1,81 @@
+---
+- hosts: localhost
+  vars:
+    workdir: "/tmp/ansible-rpistrina"
+    image_url: "https://downloads.raspberrypi.org/raspbian_lite_latest"
+    cleanup: no
+  tasks:
+    # the workdir will contain the decompressed image and mountpoints
+  - name: creating workdir
+    file:
+      path: "{{ workdir }}"
+      state: directory
+    # download raspbian image
+  - name: downloading OS image
+    get_url:
+      url:  "{{ image_url }}"
+      dest: "{{ workdir }}/os_image"
+    register: download
+    # extract image
+  - name: extracting raspbian image
+    unarchive:
+      remote_src: yes
+      list_files: yes
+      src: "{{download.dest}}"
+      dest: "{{ workdir }}/"
+    register: archive
+    # check if image was previously attached to loopback device
+  - name: checking if image has already been attached
+    shell: losetup -l | grep "{{archive.files[0] }}"
+    register: loop_attached
+    failed_when: false
+    # attach all partitions on image to loopback device
+  - name: attaching image to loopback device
+    shell: losetup --show --find --partscan "{{ workdir }}/{{ archive.files[0] }}"
+    register: loopback
+    when: loop_attached.rc != 0
+    # create mount directories
+  - name: creating /boot mountdir
+    file:
+      path: "{{ workdir }}/boot"
+      state: directory
+  - name: creating /root mountdir
+    file:
+      path: "{{ workdir }}/root"
+      state: directory
+    # check if partitions were previously mounted
+  - name: checking if /boot is already mounted
+    command: mountpoint -q "{{ workdir }}/boot"
+    register: boot_mounted
+    failed_when: false
+  - name: checking if /root is already mounted
+    command: mountpoint -q "{{ workdir }}/root"
+    register: root_mounted
+    failed_when: false
+    # mount partitions
+  - name: mounting /boot
+    command: mount "{{ loopback.stdout }}p1" "{{ workdir }}/boot"
+    args:
+      warn: no
+    become: yes
+    when: boot_mounted.rc != 0
+  - name: mounting /root
+    command: mount "{{ loopback.stdout }}p2" "{{ workdir }}/root"
+    args:
+      warn: no
+    become: yes
+    when: root_mounted.rc != 0
+    # umount partitions
+  - name: unmounting /root
+    command: umount "{{ workdir }}/root"
+    args:
+      warn: no
+    become: yes
+  - name: unmounting /boot
+    command: unmount "{{ workdir }}/root"
+    args:
+      warn: no
+    become: yes
+  - # detach loopback
+    name: detaching image from loopback device
+    shell: losetup -d "{{ loopback.stdout }}"

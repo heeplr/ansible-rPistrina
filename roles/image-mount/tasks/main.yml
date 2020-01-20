@@ -1,0 +1,60 @@
+# check if image was previously attached to loopback device
+- name: checking if image has already been attached
+  shell: losetup -l | grep "{{ image_filename }}" | cut -d " " -f1
+  register: loop_attached
+  failed_when: false
+# remember existing loopback device
+- name: remembering existing loopback device
+  set_fact:
+    loopback_dev: "{{ loop_attached.stdout }}"
+  when: loop_attached.stdout != ""
+# attach all partitions on image to loopback device
+- name: attaching image to loopback device
+  shell: losetup --show --find --partscan "{{ workdir }}/{{ image_filename }}"
+  register: loopback
+  when: loopback_dev is undefined
+# remember new loopback device
+- name: remembering loopback device
+  set_fact:
+    loopback_dev: "{{ loopback.stdout }}"
+  when: loopback_dev is undefined
+# probing partitions
+- name: probing partitions
+  command: partprobe "{{ loopback_dev }}"
+  become: yes
+  when: loopback_dev is defined
+# create mount directories
+- name: creating /boot mountdir
+  file:
+    path: "{{ workdir }}/boot"
+    state: directory
+- name: creating /root mountdir
+  file:
+    path: "{{ workdir }}/root"
+    state: directory
+# check if partitions were previously mounted
+- name: checking if /boot is already mounted
+  command: mountpoint -q "{{ workdir }}/boot"
+  register: boot_mounted
+  failed_when: false
+- name: checking if /root is already mounted
+  command: mountpoint -q "{{ workdir }}/root"
+  register: root_mounted
+  failed_when: false
+# mount partitions
+- name: mounting /boot
+  command: mount "{{ loopback_dev }}p1" "{{ workdir }}/boot"
+  args:
+    warn: no
+  become: yes
+  when: boot_mounted.rc != 0
+- name: mounting /root
+  command: mount "{{ loopback_dev }}p2" "{{ workdir }}/root"
+  args:
+    warn: no
+  become: yes
+  when: root_mounted.rc != 0
+- name: remembering mountpoints
+  set_fact:
+    mountpoint_boot: "{{ workdir }}/boot"
+    mountpoint_root: "{{ workdir }}/root"

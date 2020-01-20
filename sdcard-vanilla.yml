@@ -1,0 +1,12 @@
+---
+# burn vanilla raspberry OS with only most basic modifications to sdcard
+- hosts: localhost
+  vars:
+    os: "raspbian"
+    os_flavor: "lite"
+    workdir: "/tmp/ansible-rpistrina"
+  roles:
+    - image-download
+    - image-mount
+    - enable-ssh
+    - image-unmount
