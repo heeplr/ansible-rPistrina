@@ -1,9 +1,8 @@
-- name: checking if image has already been attached
+- name: "checking if image ({{ download_image_filename }}) has already been attached"
   shell: set -o pipefail && losetup -l | grep "{{ download_image_filename }}" | cut -d " " -f1
   args:
-    executable: /usr/bin/bash
+    executable: /bin/bash
   register: loop_attached
-  changed_when: loop_attached.stdout
   failed_when: false
 
 # register existing loopback device (if existing)
