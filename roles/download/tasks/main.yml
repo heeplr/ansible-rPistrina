@@ -10,7 +10,7 @@
   when: download_os == "raspbian" and download_os_flavor == "full"
 
 # create the download_workdir that will contain the decompressed image and mountpoints
-- name: creating download_workdir
+- name: creating workdir
   file:
     path: "{{ download_workdir }}"
     state: directory
