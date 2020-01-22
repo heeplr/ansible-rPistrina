@@ -3,7 +3,7 @@
   template:
     src: "{{ sshd_config_template }}"
     dest: "{{ mountpoint_root }}/etc/ssh/sshd_config"
-    mode: 600
+    mode: 0600
     owner: root
     group: root
   become: yes

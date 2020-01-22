@@ -1,16 +1,19 @@
 # check if image was previously attached to loopback device
 - name: checking if image has already been attached
-  shell: losetup -l | grep "{{ image_filename }}" | cut -d " " -f1
+  shell: set -o pipefail && losetup -l | grep "{{ image_filename }}" | cut -d " " -f1
+  args:
+    executable: /usr/bin/bash
   register: loop_attached
+  changed_when: loop_attached.stdout
   failed_when: false
 # register existing loopback device (if existing)
 - name: remembering existing loopback device
   set_fact:
     loopback_dev: "{{ loop_attached.stdout }}"
-  when: loop_attached.stdout != ""
+  when: loop_attached.stdout
 # attach all partitions in image to loopback device
 - name: attaching image to loopback device
-  shell: losetup --show --find --partscan "{{ workdir }}/{{ image_filename }}"
+  command: losetup --show --find --partscan "{{ workdir }}/{{ image_filename }}"
   register: loopback
   when: loopback_dev is undefined
   become: yes
@@ -23,10 +26,12 @@
 - name: checking if /boot is already mounted
   command: mountpoint -q "{{ workdir }}/boot"
   register: boot_mounted
+  changed_when: true
   failed_when: false
 - name: checking if /root is already mounted
   command: mountpoint -q "{{ workdir }}/root"
   register: root_mounted
+  changed_when: true
   failed_when: false
 # create mountpoints
 - name: creating /boot mountpoint
