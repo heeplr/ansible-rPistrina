@@ -1,4 +1,3 @@
-# copy wpa_supplicant.conf to setup wifi on first boot
 - name: "copying wpa_supplicant.conf file (from {{ wifi_wpa_supplicant_template }})"
   template:
     src: "{{ wifi_wpa_supplicant_template }}"

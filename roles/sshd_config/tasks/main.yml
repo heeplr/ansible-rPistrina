@@ -1,4 +1,3 @@
-# copy custom sshd_config
 - name: "copying sshd_config file (from {{ sshd_config_template }})"
   template:
     src: "{{ sshd_config_template }}"

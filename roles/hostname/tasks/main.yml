@@ -1,4 +1,3 @@
-# set hostname
 - name: "setting hostname (from {{ hostname_template }})"
   template:
     src: "{{ hostname_template }}"
