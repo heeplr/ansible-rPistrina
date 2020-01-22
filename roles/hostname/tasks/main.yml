@@ -1,7 +1,7 @@
 - name: "setting hostname (from {{ hostname_template }})"
   template:
     src: "{{ hostname_template }}"
-    dest: "{{ mountpoint_root }}/etc/hostname"
+    dest: "{{ mount_root }}/etc/hostname"
     owner: root
     group: root
     mode: '0600'

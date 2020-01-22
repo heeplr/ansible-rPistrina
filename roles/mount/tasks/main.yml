@@ -64,5 +64,5 @@
 
 - name: remembering mountpoints
   set_fact:
-    mountpoint_boot: "{{ workdir }}/boot"
-    mountpoint_root: "{{ workdir }}/root"
+    mount_boot: "{{ workdir }}/boot"
+    mount_root: "{{ workdir }}/root"

@@ -1,12 +1,12 @@
 - name: enabling ssh server
   file:
-    path: "{{ mountpoint_boot }}/ssh"
+    path: "{{ mount_boot }}/ssh"
     state: touch
   become: yes
 
 - name: creating ~/.ssh
   file:
-    path: "{{ mountpoint_root }}/home/pi/.ssh"
+    path: "{{ mount_root }}/home/pi/.ssh"
     state: directory
     mode: 0700
     owner: "1000"
@@ -16,7 +16,7 @@
 - name: generating ssh key
   openssh_keypair:
     type: ed25519
-    path: "{{ mountpoint_root }}/home/pi/.ssh/id_ed25519"
+    path: "{{ mount_root }}/home/pi/.ssh/id_ed25519"
     mode: 0600
     owner: "1000"
     group: "1000"
@@ -25,7 +25,7 @@
 - name: copying authorized_keys file
   template:
     src: "{{ ssh_authorized_keys_template }}"
-    dest: "{{ mountpoint_root }}/home/pi/.ssh/authorized_keys"
+    dest: "{{ mount_root }}/home/pi/.ssh/authorized_keys"
     mode: 0600
     owner: "1000"
     group: "1000"

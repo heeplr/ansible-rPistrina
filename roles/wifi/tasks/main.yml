@@ -1,5 +1,5 @@
 - name: "copying wpa_supplicant.conf file (from {{ wifi_wpa_supplicant_template }})"
   template:
     src: "{{ wifi_wpa_supplicant_template }}"
-    dest: "{{ mountpoint_boot }}/wpa_supplicant.conf"
+    dest: "{{ mount_boot }}/wpa_supplicant.conf"
   become: yes

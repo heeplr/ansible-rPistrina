@@ -1,7 +1,7 @@
 - name: "copying sshd_config file (from {{ sshd_config_template }})"
   template:
     src: "{{ sshd_config_template }}"
-    dest: "{{ mountpoint_root }}/etc/ssh/sshd_config"
+    dest: "{{ mount_root }}/etc/ssh/sshd_config"
     mode: 0600
     owner: root
     group: root
