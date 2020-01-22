@@ -3,7 +3,7 @@
 - hosts: localhost
   roles:
     - download
-    - image-mount
+    - mount
     - hostname
     - ssh-enable
     - sshd_config
