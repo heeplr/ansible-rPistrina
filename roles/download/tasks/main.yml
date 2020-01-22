@@ -1,12 +1,12 @@
 # choose image download URL from "os" and "flavor" variable
 - name: choosing raspbian lite image
   set_fact:
-    image_url: "https://downloads.raspberrypi.org/raspbian_lite_latest"
+    download_image_url: "https://downloads.raspberrypi.org/raspbian_lite_latest"
   when: os == "raspbian" and os_flavor == "lite"
 
 - name: choosing raspbian full image
   set_fact:
-    image_url: "https://downloads.raspberrypi.org/raspbian_full_latest"
+    download_image_url: "https://downloads.raspberrypi.org/raspbian_full_latest"
   when: os == "raspbian" and os_flavor == "full"
 
 # create the rpi_workdir that will contain the decompressed image and mountpoints
@@ -17,7 +17,7 @@
 
 - name: "downloading OS image ({{ os }} {{ os_flavor }})"
   get_url:
-    url:  "{{ image_url }}"
+    url:  "{{ download_image_url }}"
     dest: "{{ rpi_workdir }}/os_image"
   register: download
 
