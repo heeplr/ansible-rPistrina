@@ -8,5 +8,5 @@
     - ssh-enable
     - sshd_config
     - wifi
-    - image-unmount
+    - umount
     - sdcard
