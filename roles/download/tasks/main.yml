@@ -28,9 +28,9 @@
     src: "{{ download.dest }}"
     dest: "{{ workdir }}/"
   register: archive
-  when: image_filename is not defined
+  when: download_image_filename is not defined
 
 - name: "remembering OS image filename ({{ archive.files[0] }})"
   set_fact:
-    image_filename: "{{ archive.files[0] }}"
-  when: image_filename is undefined
+    download_image_filename: "{{ archive.files[0] }}"
+  when: download_image_filename is undefined

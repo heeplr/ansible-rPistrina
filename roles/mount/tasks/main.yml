@@ -1,5 +1,5 @@
 - name: checking if image has already been attached
-  shell: set -o pipefail && losetup -l | grep "{{ image_filename }}" | cut -d " " -f1
+  shell: set -o pipefail && losetup -l | grep "{{ download_image_filename }}" | cut -d " " -f1
   args:
     executable: /usr/bin/bash
   register: loop_attached
@@ -14,7 +14,7 @@
 
 # attach all partitions in image to loopback device
 - name: attaching image to loopback device
-  command: losetup --show --find --partscan "{{ workdir }}/{{ image_filename }}"
+  command: losetup --show --find --partscan "{{ workdir }}/{{ download_image_filename }}"
   register: loopback
   when: loopback_dev is undefined
   become: yes

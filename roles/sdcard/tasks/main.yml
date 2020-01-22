@@ -1,11 +1,11 @@
 
 - name: confirming write
   pause:
-    prompt: "Really write {{ image_filename }} to {{ sdcard_dev }}? Press ENTER to continue, CTRL+C to abort."
+    prompt: "Really write {{ download_image_filename }} to {{ sdcard_dev }}? Press ENTER to continue, CTRL+C to abort."
   when: sdcard_burn is true and sdcard_confirm is true
 
-- name: "writing image ({{ image_filename }}) to sdcard ({{ sdcard_dev | default('UNSET!') }})"
-  command: dd if="{{ workdir }}/{{ image_filename }}" of="{{ sdcard_dev }}" bs=32M
+- name: "writing image ({{ download_image_filename }}) to sdcard ({{ sdcard_dev | default('UNSET!') }})"
+  command: dd if="{{ workdir }}/{{ download_image_filename }}" of="{{ sdcard_dev }}" bs=32M
   when: sdcard_burn is true
   become: yes
 
