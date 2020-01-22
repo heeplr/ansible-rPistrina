@@ -18,4 +18,4 @@
   file:
     path: "{{ rpi_workdir }}"
     state: absent
-  when: cleanup is true
+  when: sdcard_cleanup is true
