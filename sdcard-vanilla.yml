@@ -5,7 +5,7 @@
     - image-download
     - image-mount
     - hostname
-    - ssh_enable
+    - ssh-enable
     - sshd_config
     - wifi
     - image-unmount
