@@ -1,5 +1,5 @@
 
-Automate download, modification and write of raspberry pi OS images with ansible playbooks.
+Automated downloading, modification and SD card writing of raspberry pi OS images using ansible playbooks.
 
 # Usage
 
