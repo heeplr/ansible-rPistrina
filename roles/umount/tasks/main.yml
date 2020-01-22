@@ -1,13 +1,13 @@
-- name: "unmounting {{ rpi_workdir }}/root"
-  command: umount "{{ rpi_workdir }}/root"
+- name: "unmounting {{ download_workdir }}/root"
+  command: umount "{{ download_workdir }}/root"
   register: unmount_root
   changed_when: unmount_root.rc == 0
   args:
     warn: no
   become: yes
 
-- name: "unmounting {{ rpi_workdir }}/boot"
-  command: umount "{{ rpi_workdir }}/boot"
+- name: "unmounting {{ download_workdir }}/boot"
+  command: umount "{{ download_workdir }}/boot"
   register: unmount_boot
   changed_when: unmount_boot.rc == 0
   args:
