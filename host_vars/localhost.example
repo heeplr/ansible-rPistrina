@@ -23,20 +23,20 @@
 # --------------------------------------------------------------------------
 # set hostname (or use custom hostname.j2)
 #hostname: "myraspberry"
-#hostname_template: hostname.j2
+#hostname_template: my_hostname.j2
 
 # wifi config (or use custom wpa_supplicant.conf.j2)
 #wifi_country: "US"
 #wifi_ssid: "mywifi"
 #wifi_psk: "mypassword"
-#wifi_wpa_supplicant_template: wpa_supplicant.conf.j2
+#wifi_wpa_supplicant_template: my_wpa_supplicant.conf.j2
 
 # set to generate ssh keys
 #ssh_generate_keypair: yes
 
 # set authorized public key (or use custom authorized_keys.j2)
 #ssh_authorized_key: ""
-#ssh_authorized_keys_template: authorized_keys.j2
+#ssh_authorized_keys_template: my_authorized_keys.j2
 
 # set custom sshd_config
-#sshd_config_template: sshd_config.j2
+#sshd_config_template: my_sshd_config.j2
