@@ -3,4 +3,4 @@
 - hosts: localhost
   roles:
     - image-download
-    - image-burn
+    - sdcard

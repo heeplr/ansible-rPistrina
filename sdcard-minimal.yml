@@ -9,4 +9,4 @@
     - sshd_config
     - wifi
     - image-unmount
-    - image-burn
+    - sdcard
