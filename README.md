@@ -12,3 +12,7 @@ Automate download, modification and write of raspberry pi OS images with ansible
 
 You will be asked for a sudo password since probing partitions and writing to
 the OS image on a loopback mount requires root.
+
+By default the OS image will just be created, not written to the sdcard. If
+you like to write the image, set ```sdcard_burn: yes``` and
+```sdcard_dev: /dev/sdX``` to point to your SD card.
