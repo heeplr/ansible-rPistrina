@@ -1,42 +1,42 @@
 # raspberry OS to use
-os: "raspbian"
+#os: "raspbian"
 
 # OS flavor
-os_flavor: "lite"
+#os_flavor: "lite"
 
 # directory for sdcard image and mountpoints (will be created)
 # needs enough space for downloaded archive and full extracted image
-workdir: "/tmp/ansible-rpistrina"
+#workdir: "/tmp/ansible-rpistrina"
 
 # set to delete all files from workdir after sdcard was written
-cleanup: no
+#cleanup: yes
 
 # set to write image to sdcard (the device sdcard_dev points to)
-sdcard_burn: yes
+#sdcard_burn: yes
 
-# pause & prompt before writing image to device
-sdcard_confirm: yes
+# (don't) pause & prompt before writing image to device
+#sdcard_confirm: no
 
 # sdcard device (WARNING: All data on this device will be destroyed!)
-sdcard_dev: /dev/sdX
+#sdcard_dev: /dev/sdX
 
 # --------------------------------------------------------------------------
-# hostname to set
-hostname: myraspberry
+# set hostname (or use custom hostname.j2)
+#hostname: "myraspberry"
+#hostname_template: hostname.j2
 
-# wifi settings (or use own wpa_supplicant.conf.j2 template)
-wifi_country: "US"
-wifi_ssid: "mywifi"
-wifi_psk: "mypassword"
+# wifi config (or use custom wpa_supplicant.conf.j2)
+#wifi_country: "US"
+#wifi_ssid: "mywifi"
+#wifi_psk: "mypassword"
+#wifi_wpa_supplicant_template: wpa_supplicant.conf.j2
 
 # set to generate ssh keys
-generate_ssh_keypair: no
+#ssh_generate_keypair: yes
 
-# uncomment to copy custom files/sshd_config to image
-#sshd_config_file: sshd_config
+# set authorized public key (or use custom authorized_keys.j2)
+#ssh_authorized_key: ""
+#ssh_authorized_keys_template: authorized_keys.j2
 
-# uncomment to copy custom files/authorized_keys to image
-#authorized_keys_file: authorized_keys
-
-# uncomment to copy custom wpa_supplicant.conf to image
-#wpa_supplicant_conf_file: wpa_supplicant.conf
+# set custom sshd_config
+#sshd_config_template: sshd_config.j2

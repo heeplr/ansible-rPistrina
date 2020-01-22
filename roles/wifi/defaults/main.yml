@@ -1,0 +1,4 @@
+wifi_country: US
+wifi_ssid: mywifi
+wifi_psk: mypassword
+wifi_wpa_supplicant_template: wpa_supplicant.conf.j2

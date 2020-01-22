@@ -1,7 +1,7 @@
 # set hostname
-- name: "setting hostname to \"{{ hostname }}\""
+- name: "setting hostname"
   template:
-    src: "hostname.j2"
+    src: "{{ hostname_template }}"
     dest: "{{ mountpoint_root }}/etc/hostname"
     owner: root
     group: root

@@ -1,0 +1,2 @@
+hostname: "myraspberry"
+hostname_template: hostname.j2

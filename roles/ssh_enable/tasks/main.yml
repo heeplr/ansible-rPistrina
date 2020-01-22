@@ -21,22 +21,13 @@
     mode: 600
     owner: "1000"
     group: "1000"
-  when: generate_ssh_keypair == true
+  when: ssh_generate_keypair == true
 # copy custom authorized_keys
 - name: copying authorized_keys file
-  copy:
-    src: "{{ authorized_keys_file }}"
+  template:
+    src: "{{ ssh_authorized_keys_template }}"
     dest: "{{ mountpoint_root }}/home/pi/.ssh/authorized_keys"
     mode: 600
     owner: "1000"
     group: "1000"
-  when: authorized_keys_file is defined
-# copy custom sshd_config
-- name: copying sshd_config file
-  copy:
-    src: "{{ sshd_config_file }}"
-    dest: "{{ mountpoint_root }}/etc/ssh/sshd_config"
-    mode: 600
-    owner: root
-    group: root
-  when: sshd_config_file is defined
+  become: yes

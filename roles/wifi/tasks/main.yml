@@ -1,6 +1,6 @@
 # copy wpa_supplicant.conf to setup wifi on first boot
 - name: copying wpa_supplicant.conf file
   template:
-    src: wpa_supplicant.conf.j2
+    src: "{{ wifi_wpa_supplicant_template }}"
     dest: "{{ mountpoint_boot }}/wpa_supplicant.conf"
   become: yes

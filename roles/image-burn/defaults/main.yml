@@ -1,0 +1,4 @@
+cleanup: no
+sdcard_burn: no
+sdcard_confirm: yes
+sdcard_dev: /dev/zero

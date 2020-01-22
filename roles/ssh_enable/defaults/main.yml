@@ -1,0 +1,3 @@
+ssh_generate_keypair: no
+ssh_authorized_key: ""
+ssh_authorized_keys_template: authorized_keys.j2
