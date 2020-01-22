@@ -1,0 +1,12 @@
+---
+# burn minimal raspberry OS with only most basic modifications to sdcard
+- hosts: localhost
+  roles:
+    - image-download
+    - image-mount
+    - hostname
+    - ssh-enable
+    - sshd_config
+    - wifi
+    - image-unmount
+    - image-burn
