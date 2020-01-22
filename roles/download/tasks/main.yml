@@ -9,16 +9,16 @@
     image_url: "https://downloads.raspberrypi.org/raspbian_full_latest"
   when: os == "raspbian" and os_flavor == "full"
 
-# create the workdir that will contain the decompressed image and mountpoints
-- name: creating workdir
+# create the rpi_workdir that will contain the decompressed image and mountpoints
+- name: creating rpi_workdir
   file:
-    path: "{{ workdir }}"
+    path: "{{ rpi_workdir }}"
     state: directory
 
 - name: "downloading OS image ({{ os }} {{ os_flavor }})"
   get_url:
     url:  "{{ image_url }}"
-    dest: "{{ workdir }}/os_image"
+    dest: "{{ rpi_workdir }}/os_image"
   register: download
 
 - name: "extracting OS image"
@@ -26,7 +26,7 @@
     remote_src: yes
     list_files: yes
     src: "{{ download.dest }}"
-    dest: "{{ workdir }}/"
+    dest: "{{ rpi_workdir }}/"
   register: archive
   when: download_image_filename is not defined
 

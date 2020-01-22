@@ -5,7 +5,7 @@
   when: sdcard_burn is true and sdcard_confirm is true
 
 - name: "writing image ({{ download_image_filename }}) to sdcard ({{ sdcard_dev | default('UNSET!') }})"
-  command: dd if="{{ workdir }}/{{ download_image_filename }}" of="{{ sdcard_dev }}" bs=32M
+  command: dd if="{{ rpi_workdir }}/{{ download_image_filename }}" of="{{ sdcard_dev }}" bs=32M
   when: sdcard_burn is true
   become: yes
 
@@ -14,8 +14,8 @@
   when: sdcard_burn is true
   become: yes
 
-- name: deleting workdir
+- name: deleting rpi_workdir
   file:
-    path: "{{ workdir }}"
+    path: "{{ rpi_workdir }}"
     state: absent
   when: cleanup is true

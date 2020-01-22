@@ -6,9 +6,9 @@
 
 # directory for sdcard image and mountpoints (will be created)
 # needs enough space for downloaded archive and full extracted image
-#workdir: "/tmp/ansible-rpistrina"
+#rpi_workdir: "/tmp/ansible-rpistrina"
 
-# set to delete all files from workdir after sdcard was written
+# set to delete all files from rpi_workdir after sdcard was written
 #cleanup: yes
 
 # set to write image to sdcard (the device sdcard_dev points to)
