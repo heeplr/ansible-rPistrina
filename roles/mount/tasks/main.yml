@@ -3,6 +3,7 @@
   args:
     executable: /bin/bash
   register: loop_attached
+  changed_when: true
   failed_when: false
 
 # register existing loopback device (if existing)
