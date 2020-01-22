@@ -2,5 +2,5 @@
 # burn vanilla raspberry OS to sdcard
 - hosts: localhost
   roles:
-    - image-download
+    - download
     - sdcard
