@@ -9,20 +9,20 @@
 # register existing loopback device (if existing)
 - name: remembering existing loopback device
   set_fact:
-    loopback_dev: "{{ loop_attached.stdout }}"
+    mount_loopback_dev: "{{ loop_attached.stdout }}"
   when: loop_attached.stdout
 
 # attach all partitions in image to loopback device
 - name: attaching image to loopback device
   command: losetup --show --find --partscan "{{ rpi_workdir }}/{{ download_image_filename }}"
   register: loopback
-  when: loopback_dev is undefined
+  when: mount_loopback_dev is undefined
   become: yes
 
 - name: remembering loopback device
   set_fact:
-    loopback_dev: "{{ loopback.stdout }}"
-  when: loopback_dev is undefined
+    mount_loopback_dev: "{{ loopback.stdout }}"
+  when: mount_loopback_dev is undefined
 
 - name: checking if /boot is already mounted
   command: mountpoint -q "{{ rpi_workdir }}/boot"
@@ -49,14 +49,14 @@
   when: root_mounted.rc != 0
 
 - name: mounting /boot
-  command: mount "{{ loopback_dev }}p1" "{{ rpi_workdir }}/boot"
+  command: mount "{{ mount_loopback_dev }}p1" "{{ rpi_workdir }}/boot"
   args:
     warn: no
   become: yes
   when: boot_mounted.rc != 0
 
 - name: mounting /root
-  command: mount "{{ loopback_dev }}p2" "{{ rpi_workdir }}/root"
+  command: mount "{{ mount_loopback_dev }}p2" "{{ rpi_workdir }}/root"
   args:
     warn: no
   become: yes

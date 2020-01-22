@@ -15,6 +15,6 @@
   become: yes
 
 - name: detaching image from loopback device
-  command: losetup -d "{{ loopback_dev }}"
+  command: losetup -d "{{ mount_loopback_dev }}"
   register: loopback_detach
   changed_when: loopback_detach == 0
