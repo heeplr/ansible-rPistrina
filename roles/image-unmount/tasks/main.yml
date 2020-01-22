@@ -1,14 +1,15 @@
 # umount partitions
-- name: unmounting /root
+- name: "unmounting {{ workdir }}/root"
   command: umount "{{ workdir }}/root"
   args:
     warn: no
   become: yes
-- name: unmounting /boot
+- name: "unmounting {{ workdir }}/boot"
   command: umount "{{ workdir }}/boot"
   args:
     warn: no
   become: yes
-- # detach loopback
-  name: detaching image from loopback device
+# detach loopback device
+- name: detaching image from loopback device
   shell: losetup -d "{{ loopback_dev }}"
+

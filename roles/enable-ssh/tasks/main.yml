@@ -1,5 +1,0 @@
-- name: enabling ssh server
-  file:
-    path: "{{ mountpoint_boot }}/ssh"
-    state: touch
-  become: yes

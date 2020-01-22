@@ -3,35 +3,22 @@
   shell: losetup -l | grep "{{ image_filename }}" | cut -d " " -f1
   register: loop_attached
   failed_when: false
-# remember existing loopback device
+# register existing loopback device (if existing)
 - name: remembering existing loopback device
   set_fact:
     loopback_dev: "{{ loop_attached.stdout }}"
   when: loop_attached.stdout != ""
-# attach all partitions on image to loopback device
+# attach all partitions in image to loopback device
 - name: attaching image to loopback device
   shell: losetup --show --find --partscan "{{ workdir }}/{{ image_filename }}"
   register: loopback
   when: loopback_dev is undefined
-# remember new loopback device
+  become: yes
+# register newly created loopback device
 - name: remembering loopback device
   set_fact:
     loopback_dev: "{{ loopback.stdout }}"
   when: loopback_dev is undefined
-# probing partitions
-- name: probing partitions
-  command: partprobe "{{ loopback_dev }}"
-  become: yes
-  when: loopback_dev is defined
-# create mount directories
-- name: creating /boot mountdir
-  file:
-    path: "{{ workdir }}/boot"
-    state: directory
-- name: creating /root mountdir
-  file:
-    path: "{{ workdir }}/root"
-    state: directory
 # check if partitions were previously mounted
 - name: checking if /boot is already mounted
   command: mountpoint -q "{{ workdir }}/boot"
@@ -41,6 +28,17 @@
   command: mountpoint -q "{{ workdir }}/root"
   register: root_mounted
   failed_when: false
+# create mountpoints
+- name: creating /boot mountpoint
+  file:
+    path: "{{ workdir }}/boot"
+    state: directory
+  when: boot_mounted.rc != 0
+- name: creating /root mountpoint
+  file:
+    path: "{{ workdir }}/root"
+    state: directory
+  when: root_mounted.rc != 0
 # mount partitions
 - name: mounting /boot
   command: mount "{{ loopback_dev }}p1" "{{ workdir }}/boot"
@@ -54,6 +52,7 @@
     warn: no
   become: yes
   when: root_mounted.rc != 0
+# register mountpoints
 - name: remembering mountpoints
   set_fact:
     mountpoint_boot: "{{ workdir }}/boot"

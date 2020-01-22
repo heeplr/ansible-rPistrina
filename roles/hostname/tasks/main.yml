@@ -1,0 +1,9 @@
+# set hostname
+- name: "setting hostname to \"{{ hostname }}\""
+  template:
+    src: "hostname.j2"
+    dest: "{{ mountpoint_root }}/etc/hostname"
+    owner: root
+    group: root
+    mode: '0600'
+  become: yes

@@ -1,0 +1,42 @@
+# enable ssh server on first boot
+- name: enabling ssh server
+  file:
+    path: "{{ mountpoint_boot }}/ssh"
+    state: touch
+  become: yes
+# create ~/.ssh dir
+- name: creating ~/.ssh
+  file:
+    path: "{{ mountpoint_root }}/home/pi/.ssh"
+    state: directory
+    mode: 0700
+    owner: "1000"
+    group: "1000"
+  become: yes
+# generate keypair
+- name: generating ssh key
+  openssh_keypair:
+    type: ed25519
+    path: "{{ mountpoint_root }}/home/pi/.ssh/id_ed25519"
+    mode: 600
+    owner: "1000"
+    group: "1000"
+  when: generate_ssh_keypair == true
+# copy custom authorized_keys
+- name: copying authorized_keys file
+  copy:
+    src: "{{ authorized_keys_file }}"
+    dest: "{{ mountpoint_root }}/home/pi/.ssh/authorized_keys"
+    mode: 600
+    owner: "1000"
+    group: "1000"
+  when: authorized_keys_file is defined
+# copy custom sshd_config
+- name: copying sshd_config file
+  copy:
+    src: "{{ sshd_config_file }}"
+    dest: "{{ mountpoint_root }}/etc/ssh/sshd_config"
+    mode: 600
+    owner: root
+    group: root
+  when: sshd_config_file is defined
