@@ -2,20 +2,20 @@
 - name: confirming write
   pause:
     prompt: "Really write {{ download_image_filename }} to {{ sdcard_dev }}? Press ENTER to continue, CTRL+C to abort."
-  when: sdcard_burn is true and sdcard_confirm is true
+  when: sdcard_burn and sdcard_confirm
 
 - name: "writing image ({{ download_image_filename }}) to sdcard ({{ sdcard_dev | default('UNSET!') }})"
   command: dd if="{{ download_workdir }}/{{ download_image_filename }}" of="{{ sdcard_dev }}" bs=32M
-  when: sdcard_burn is true
+  when: sdcard_burn
   become: yes
 
 - name: probing partitions
   command: partprobe "{{ sdcard_dev }}"
-  when: sdcard_burn is true
+  when: sdcard_burn
   become: yes
 
 - name: deleting download_workdir
   file:
     path: "{{ download_workdir }}"
     state: absent
-  when: sdcard_cleanup is true
+  when: sdcard_cleanup
