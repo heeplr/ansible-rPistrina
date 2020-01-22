@@ -5,7 +5,7 @@
     - download
     - mount
     - hostname
-    - ssh-enable
+    - ssh
     - sshd_config
     - wifi
     - umount
