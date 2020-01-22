@@ -1,0 +1,4 @@
+- name: "mac: checking if image ({{ download_image_filename }}) has already been attached"
+  debug:
+    msg: "please help to implement mac support"
+  failed_when: true

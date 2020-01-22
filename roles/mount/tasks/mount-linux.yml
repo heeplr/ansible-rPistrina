@@ -1,0 +1,68 @@
+- name: "linux: checking if image ({{ download_image_filename }}) has already been attached"
+  shell: set -o pipefail && losetup -l | grep "{{ download_image_filename }}" | cut -d " " -f1
+  args:
+    executable: /bin/bash
+  register: loop_attached
+  changed_when: true
+  failed_when: false
+
+# register existing loopback device (if existing)
+- name: "linux: remembering existing loopback device"
+  set_fact:
+    mount_loopback_dev: "{{ loop_attached.stdout }}"
+  when: loop_attached.stdout
+
+# attach all partitions in image to loopback device
+- name: "linux: attaching image to loopback device"
+  command: losetup --show --find --partscan "{{ download_workdir }}/{{ download_image_filename }}"
+  register: loopback
+  when: mount_loopback_dev is undefined
+  become: yes
+
+- name: "linux: remembering loopback device"
+  set_fact:
+    mount_loopback_dev: "{{ loopback.stdout }}"
+  when: mount_loopback_dev is undefined
+
+- name: checking if /boot is already mounted
+  command: mountpoint -q "{{ download_workdir }}/boot"
+  register: boot_mounted
+  changed_when: true
+  failed_when: false
+
+- name: checking if /root is already mounted
+  command: mountpoint -q "{{ download_workdir }}/root"
+  register: root_mounted
+  changed_when: true
+  failed_when: false
+
+- name: creating /boot mountpoint
+  file:
+    path: "{{ download_workdir }}/boot"
+    state: directory
+  when: boot_mounted.rc != 0
+
+- name: creating /root mountpoint
+  file:
+    path: "{{ download_workdir }}/root"
+    state: directory
+  when: root_mounted.rc != 0
+
+- name: mounting /boot
+  command: mount "{{ mount_loopback_dev }}p1" "{{ download_workdir }}/boot"
+  args:
+    warn: no
+  become: yes
+  when: boot_mounted.rc != 0
+
+- name: mounting /root
+  command: mount "{{ mount_loopback_dev }}p2" "{{ download_workdir }}/root"
+  args:
+    warn: no
+  become: yes
+  when: root_mounted.rc != 0
+
+- name: remembering mountpoints
+  set_fact:
+    mount_boot: "{{ download_workdir }}/boot"
+    mount_root: "{{ download_workdir }}/root"
