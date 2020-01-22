@@ -1,3 +1,3 @@
-os: "raspbian"
-os_flavor: "lite"
+download_os: "raspbian"
+download_os_flavor: "lite"
 rpi_workdir: "/tmp/ansible-rpistrina"
