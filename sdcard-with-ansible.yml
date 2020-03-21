@@ -8,6 +8,6 @@
     - ssh
     - sshd_config
     - wifi
-    - install_ansible
+    - local_install_ansible
     - umount
     - sdcard
