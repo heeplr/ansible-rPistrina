@@ -1,0 +1,4 @@
+oneshot_ansible_setup_script_template: setup.j2
+# set to "first_login" to run on first login of user "pi"
+# set to "boot" to run on first boot
+oneshot_ansible_run: "first_login"

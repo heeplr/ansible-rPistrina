@@ -1,0 +1,38 @@
+- name: "remembering rpi ansible workdir"
+  set_fact:
+    rpi_workdir: "{{ mount_root }}/root/ansible-workdir"
+  when: rpi_workdir is undefined
+
+- name: "creating ansible workdir: {{ rpi_workdir }}"
+  file:
+    path: "{{ rpi_workdir }}"
+    state: directory
+  become: yes
+
+- name: "remembering path to setup script"
+  set_fact:
+    oneshot_setup_script: "{{ rpi_workdir }}/setup"
+
+- name: "copying oneshot setup script to {{ oneshot_setup_script }}"
+  template:
+    src: "{{ oneshot_ansible_setup_script_template }}"
+    dest: "{{ oneshot_setup_script }}"
+    owner: root
+    group: root
+    mode: '0700'
+  become: yes
+
+- name: "scheduling execution on boot"
+  lineinfile:
+    path: "{{ mount_root }}/etc/rc.local"
+    insertbefore: "^exit"
+    line: "[ -f {{ oneshot_setup_script }} ] && {{ oneshot_setup_script }}"
+  when: oneshot_ansible_run == "boot"
+  become: yes
+
+- name: "scheduling execution on first login"
+  lineinfile:
+    path: "{{ mount_root }}/home/pi/.bashrc"
+    create: yes
+    line: "[ -f {{ oneshot_setup_script }} ] && sudo {{ oneshot_setup_script }}"
+  when: oneshot_ansible_run == "first_login"

@@ -1,0 +1,13 @@
+---
+# burn raspberry OS that installs ansible on first boot / first login
+- hosts: localhost
+  roles:
+    - download
+    - mount
+    - hostname
+    - ssh
+    - sshd_config
+    - wifi
+    - install_ansible
+    - umount
+    - sdcard
