@@ -28,9 +28,9 @@
     src: "{{ download.dest }}"
     dest: "{{ download_workdir }}/"
   register: archive
-  when: download_image_filename is not defined
+  when: ansible_facts.download_image_filename is undefined
 
 - name: "remembering OS image filename ({{ archive.files[0] }})"
   set_fact:
     download_image_filename: "{{ archive.files[0] }}"
-  when: download_image_filename is undefined
+  when: ansible_facts.download_image_filename is undefined
