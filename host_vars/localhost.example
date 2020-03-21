@@ -6,7 +6,7 @@
 
 # directory for sdcard image and mountpoints (will be created)
 # needs enough space for downloaded archive and full extracted image
-#download_workdir: "/tmp/ansible-rpistrina"
+#download_workdir: "/tmp/ansible-rpicook"
 
 # set to delete all files from download_workdir after sdcard was written
 #sdcard_cleanup: yes
