@@ -21,22 +21,19 @@
 #sdcard_dev: /dev/sdX
 
 # --------------------------------------------------------------------------
-# set hostname (or use custom hostname.j2)
-#hostname: "myraspberry"
-#hostname_template: my_hostname.j2
+# s. roles/*/defaults for more config options
+# --------------------------------------------------------------------------
 
-# wifi config (or use custom wpa_supplicant.conf.j2)
-#wifi_country: "US"
-#wifi_ssid: "mywifi"
-#wifi_psk: "mypassword"
-#wifi_wpa_supplicant_template: my_wpa_supplicant.conf.j2
+# set hostname
+hostname: "myraspberry"
 
-# set to generate ssh keys
-#ssh_generate_keypair: yes
+# wifi config
+wifi_country: "US"
+wifi_ssid: "mywifi"
+wifi_psk: "mypassword"
 
-# set authorized public key (or use custom authorized_keys.j2)
-#ssh_authorized_key: ""
-#ssh_authorized_keys_template: my_authorized_keys.j2
+# generate ssh keys
+ssh_generate_keypair: yes
 
-# set custom sshd_config
-#sshd_config_template: my_sshd_config.j2
+# set authorized public key
+ssh_authorized_keys_template: authorized_keys.j2
