@@ -1,2 +1,2 @@
-templates/
+templates/my_*.j2
 host_vars/localhost
