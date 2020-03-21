@@ -1,10 +1,12 @@
 
+# Generating raspberry pi images has never been simpler
+
 Automated downloading, modification and SD card writing of raspberry pi OS images using ansible playbooks.
 
-# Usage
+## Usage
 
 * copy "host_vars/localhost.example" to "host_vars/localhost"
-* edit settings in "host_vars/localhost"
+* edit/add settings in "host_vars/localhost"
 * run playbooks...
   * ...to build vanilla OS image: ```ansible-playbook sdcard-vanilla.yml```
   * ...to build minimal image with sane settings: ```ansible-playbook sdcard-minimal.yml```
