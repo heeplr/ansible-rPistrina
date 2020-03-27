@@ -1,7 +1,10 @@
-- name: "remembering rpi ansible workdir"
+- name: "remembering relative rpi work path"
   set_fact:
-    rpi_workdir: "{{ mount_root }}/root/ansible-workdir"
-  when: rpi_workdir is undefined
+    rpi_local_workdir: "/root/ansible-workdir"
+
+- name: "remembering absolute rpi work path"
+  set_fact:
+    rpi_workdir: "{{ mount_root }}{{ rpi_local_workdir }}"
 
 - name: "creating ansible workdir: {{ rpi_workdir }}"
   file:
