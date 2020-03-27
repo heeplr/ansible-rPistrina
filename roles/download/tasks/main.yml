@@ -21,16 +21,33 @@
     dest: "{{ download_workdir }}/os_image"
   register: download
 
+- name: "checking if image has been extracted"
+  stat:
+    path: "{{ download_workdir }}/os_image_name"
+  register: os_image_name
+
+- name: "using already extracted OS image"
+  set_fact:
+    download_image_filename: "{{ lookup('file', '{{ download_workdir }}/os_image_name') }}"
+  when: os_image_name.stat.exists == True
+
 - name: "extracting OS image"
   unarchive:
     remote_src: yes
     list_files: yes
     src: "{{ download.dest }}"
     dest: "{{ download_workdir }}/"
+    keep_newer: yes
   register: archive
-  when: ansible_facts.download_image_filename is undefined
+  when: os_image_name.stat.exists == False
 
-- name: "remembering OS image filename ({{ archive.files[0] }})"
+- name: "remembering OS image filename"
   set_fact:
     download_image_filename: "{{ archive.files[0] }}"
-  when: ansible_facts.download_image_filename is undefined
+  when: download_image_filename is undefined
+
+- name: "remembering OS image filename persistently"
+  copy:
+    content: "{{ download_image_filename }}"
+    dest: "{{ download_workdir }}/os_image_name"
+  when: os_image_name.stat.exists == False
