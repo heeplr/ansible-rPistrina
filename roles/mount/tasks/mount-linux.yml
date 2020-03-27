@@ -16,7 +16,7 @@
 - name: "linux: attaching image to loopback device"
   command: losetup --show --find --partscan "{{ download_workdir }}/{{ download_image_filename }}"
   register: loopback
-  when: mount_loopback_dev is undefined
+  when: ansible_facts.mount_loopback_dev is undefined
   become: yes
 
 - name: "linux: remembering loopback device"
